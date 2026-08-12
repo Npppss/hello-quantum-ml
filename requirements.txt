@@ -2,3 +2,5 @@ qiskit
 qiskit-machine-learning 
 scikit-learn 
 matplotlib
+pennylane 
+torch
