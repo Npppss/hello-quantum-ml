@@ -26,3 +26,19 @@ class HybridModel(nn.Module):
         x = self.qlayer(x)
         x = torch.sigmoid(self.fc2(x))
         return x
+
+# Bagian 2 Dataset Dummy & Persiapan Training
+# Membuat dataset dummy (misalnya 100 sampel, 4 fitur)
+torch.manual_seed(42)  # Agar hasilnya konsisten saat diulang
+X_train = torch.rand(100, 4)
+
+# Membuat label biner (0 atau 1) dengan aturan sederhana:
+# Jika total nilai dari 4 fitur > 2, maka labelnya 1. Jika tidak, 0.
+y_train = (X_train.sum(dim=1) > 2).float().unsqueeze(1)  # Bentuk (100, 1)
+
+model = HybridModel()
+
+# Menggunakan Binary Cross Entropy (BCELoss) yang ideal untuk klasifikasi biner
+criterion = nn.BCELoss()
+# Optimizer Adam (algoritma klasik) untuk memperbarui seluruh bobot
+optimizer = optim.Adam(model.parameters(), lr=0.1)
