@@ -42,3 +42,28 @@ model = HybridModel()
 criterion = nn.BCELoss()
 # Optimizer Adam (algoritma klasik) untuk memperbarui seluruh bobot
 optimizer = optim.Adam(model.parameters(), lr=0.1)
+
+# Bagian 3 Training Loop
+epochs = 20
+print("Mulai proses training...")
+
+for epoch in range(epochs):
+    model.train()  # Pastikan model dalam mode training
+    optimizer.zero_grad()  # Reset gradien dari iterasi sebelumnya
+
+    # Forward pass: Hitung prediksi
+    outputs = model(X_train)
+    loss = criterion(outputs, y_train)  # Hitung loss
+
+    # Backward pass: Hitung gradien
+    loss.backward()
+    optimizer.step()  # Perbarui bobot
+
+    if (epoch + 1) % 5 == 0 or epoch == 0:
+        print(f"Epoch [{epoch + 1}/{epochs}], Loss: {loss.item():.4f}")
+
+print("\nTraining selesai! Mari kita tes dengan data baru.")
+data_baru = torch.rand(1, 4)
+prediksi_baru = model(data_baru)
+print(f"Data input: {data_baru.tolist()}")
+print(f"Hasil Prediksi (Probabilitas kelas 1): {prediksi_baru.item():.4f}")
